@@ -34,7 +34,7 @@ update_sources_list() {
   if [ "$count" -ge 1 ]; then
     echo "'debian.org/debian' appears $count times in uncommented lines of sources.list. Proceeding with replacement."
   else
-    echo "The current sources.list does not contain 'debian.org/debian' 2 or more times in uncommented lines."
+    echo "The current sources.list does not contain 'debian.org/debian' on any uncommented lines."
     echo "Contents of /etc/apt/sources.list:" >&2
     cat /etc/apt/sources.list
     read -p "Do you want to replace the contents of sources.list? (y/n): " REPLACE
