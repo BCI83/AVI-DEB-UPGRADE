@@ -82,11 +82,15 @@ if ! grep -qi "debian" /etc/os-release; then
   exit 1
 fi
 
-echo "Downloading Docker GPG key..."
+if [ ! -f /usr/share/keyrings/docker-archive-keyring.gpg ]; then
+  echo "Downloading Docker GPG key..."
   wget https://registry.vnocsymphony.com/cpx/downloads/docker-archive-keyring.gpg -O /usr/share/keyrings/docker-archive-keyring.gpg || {
     # Check and install dependencies
     check_dependencies
-}
+  }
+else
+  echo "Docker GPG key already exists @/usr/share/keyrings/docker-archive-keyring.gpg skipping download."
+fi
 
 # Get Debian version
 DEBIAN_VERSION=$(grep VERSION_ID /etc/os-release | cut -d'=' -f2 | tr -d '"')
