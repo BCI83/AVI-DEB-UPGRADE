@@ -83,7 +83,7 @@ if ! grep -qi "debian" /etc/os-release; then
 fi
 
 echo "Downloading Docker GPG key..."
-  curl -fsSL https://registry.vnocsymphony.com/cpx/downloads/docker-archive-keyring.gpg | gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg || {
+  wget https://registry.vnocsymphony.com/cpx/downloads/docker-archive-keyring.gpg -O /usr/share/keyrings/docker-archive-keyring.gpg || {
     # Check and install dependencies
     check_dependencies
 }
