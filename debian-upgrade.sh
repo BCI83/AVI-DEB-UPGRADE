@@ -105,7 +105,7 @@ case $DEBIAN_VERSION in
     update_sources_list "bookworm"
     ;;
   12)
-    echo "Debian 12 (Bookworm) detected. Staying on current version and updating apps..."
+    echo "Debian 12 (Bookworm) detected. Staying on current version, but updating any apps that can be updated..."
     ;;
   *)
     echo "Unsupported Debian version: $DEBIAN_VERSION. Exiting."
