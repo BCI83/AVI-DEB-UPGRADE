@@ -113,6 +113,14 @@ case $DEBIAN_VERSION in
     ;;
 esac
 
+# Remove the old additional source from the 2020 OVA
+if [ -f /etc/apt/sources.list.d/deb_debian_org_debian.list ]; then
+  echo "File exists. Deleting /etc/apt/sources.list.d/deb_debian_org_debian.list..."
+  rm /etc/apt/sources.list.d/deb_debian_org_debian.list
+else
+  echo "File does not exist. Nothing to delete."
+fi
+
 # Perform updates and upgrades
 echo "Running apt update and upgrades..."
 apt update --assume-yes
