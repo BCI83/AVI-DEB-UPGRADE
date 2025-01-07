@@ -115,7 +115,7 @@ esac
 
 # Remove the old additional source from the 2020 OVA (if it exists)
 if [ -f /etc/apt/sources.list.d/deb_debian_org_debian.list ]; then
-  echo "File exists. Deleting /etc/apt/sources.list.d/deb_debian_org_debian.list..."
+  echo "Deleting /etc/apt/sources.list.d/deb_debian_org_debian.list."
   rm /etc/apt/sources.list.d/deb_debian_org_debian.list
 fi
 
