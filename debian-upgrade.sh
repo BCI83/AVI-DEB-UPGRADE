@@ -132,7 +132,7 @@ unset DEBIAN_FRONTEND
 # Prompt for reboot if a full version upgrade was performed
 if [[ $DEBIAN_VERSION == 10 || $DEBIAN_VERSION == 11 ]]; then
   echo "###############################################"
-echo "# Full version upgrade complete. Reboot now? #"
+echo "# Major version upgrade complete. Reboot now? #"
 echo "###############################################"
 read -p "(y/n): " REBOOT
   if [[ $REBOOT =~ ^[Yy]$ ]]; then
