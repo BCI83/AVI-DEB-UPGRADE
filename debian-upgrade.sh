@@ -143,4 +143,6 @@ read -p "(y/n): " REBOOT
   fi
 fi
 
-echo "Script execution complete."
+echo "###############################################"
+echo "#   The upgrade process has now finished.     #"
+echo "###############################################"
