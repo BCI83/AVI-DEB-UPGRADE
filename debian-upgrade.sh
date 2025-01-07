@@ -31,7 +31,7 @@ update_sources_list() {
 
   count=$(grep -Evc '^\s*#' /etc/apt/sources.list | grep -c "debian.org/debian" /etc/apt/sources.list || true)
 
-  if [ "$count" -ge 2 ]; then
+  if [ "$count" -ge 1 ]; then
     echo "'debian.org/debian' appears $count times in uncommented lines of sources.list. Proceeding with replacement."
   else
     echo "The current sources.list does not contain 'debian.org/debian' 2 or more times in uncommented lines."
