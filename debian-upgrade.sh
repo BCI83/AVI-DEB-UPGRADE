@@ -117,8 +117,6 @@ esac
 if [ -f /etc/apt/sources.list.d/deb_debian_org_debian.list ]; then
   echo "File exists. Deleting /etc/apt/sources.list.d/deb_debian_org_debian.list..."
   rm /etc/apt/sources.list.d/deb_debian_org_debian.list
-else
-  echo "File does not exist. Nothing to delete."
 fi
 
 # Perform updates and upgrades
