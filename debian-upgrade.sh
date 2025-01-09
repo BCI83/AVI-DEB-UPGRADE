@@ -2,6 +2,14 @@
 
 set -e
 
+# Check if there are any running Docker containers
+if [[ $(docker ps -q) ]]; then
+    echo "###################################################################################"
+    echo "# Error: There are running Docker containers. Please stop them and then try again #"
+    echo "###################################################################################"
+    exit 1
+fi
+
 # Set non-interactive frontend for APT operations
 export DEBIAN_FRONTEND=noninteractive
 
@@ -142,6 +150,13 @@ read -p "(y/n): " REBOOT
     echo "Please reboot manually later to apply changes."
   fi
 fi
+
+apps=("gnupg2" "pass")
+for app in "${apps[@]}"; do
+    if ! command -v "$app" >/dev/null 2>&1; then
+        sudo apt install "$app" -y || echo "Failed to install '$app'."
+    fi
+done
 
 echo "###############################################"
 echo "#   The upgrade process has now finished.     #"
