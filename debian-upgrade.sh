@@ -2,7 +2,7 @@
 
 set -e
 
-# Check if there are any running Docker containers
+# Check if there are any running Docker containers, and quit if yes
 if [[ $(docker ps -q) ]]; then
     echo "###################################################################################"
     echo "# Error: There are running Docker containers. Please stop them and then try again #"
