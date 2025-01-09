@@ -158,6 +158,6 @@ for app in "${apps[@]}"; do
     fi
 done
 
-echo "###############################################"
-echo "#   The upgrade process has now finished.     #"
-echo "###############################################"
+echo "#######################################################"
+echo "#   The OS and app upgrade process has now finished   #"
+echo "#######################################################"
