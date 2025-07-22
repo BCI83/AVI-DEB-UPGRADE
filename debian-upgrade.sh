@@ -56,6 +56,16 @@ update_sources_list() {
 
   case $version in
     bullseye)
+cat <<EOF > /etc/apt/sources.list
+deb [trusted=yes] http://archive.debian.org/debian/ buster main contrib non-free
+
+deb [trusted=yes] http://archive.debian.org/debian/ buster-proposed-updates main contrib non-free
+
+deb [trusted=yes] http://archive.debian.org/debian-security buster/updates main contrib non-free
+EOF
+      apt update --assume-yes
+      apt upgrade --assume-yes
+
       cat <<EOF > /etc/apt/sources.list
 deb [trusted=yes] https://registry.vnocsymphony.com/repos/apt-mirror/mirror/ftp.us.debian.org/debian bullseye main contrib non-free
 
@@ -90,14 +100,10 @@ if ! grep -qi "debian" /etc/os-release; then
   exit 1
 fi
 
-if [ ! -f /usr/share/keyrings/docker-archive-keyring.gpg ]; then
-  echo "Downloading Docker GPG key..."
-  wget https://registry.vnocsymphony.com/cpx/downloads/docker-archive-keyring.gpg -O /usr/share/keyrings/docker-archive-keyring.gpg || {
-    # Check and install dependencies
-    check_dependencies
-  }
-else
-  echo "Docker GPG key already exists @/usr/share/keyrings/docker-archive-keyring.gpg skipping download."
+# Remove the old additional source from the 2020 OVA (if it exists)
+if [ -f /etc/apt/sources.list.d/deb_debian_org_debian.list ]; then
+  echo "Deleting /etc/apt/sources.list.d/deb_debian_org_debian.list."
+  rm /etc/apt/sources.list.d/deb_debian_org_debian.list
 fi
 
 # Get Debian version
@@ -121,10 +127,14 @@ case $DEBIAN_VERSION in
     ;;
 esac
 
-# Remove the old additional source from the 2020 OVA (if it exists)
-if [ -f /etc/apt/sources.list.d/deb_debian_org_debian.list ]; then
-  echo "Deleting /etc/apt/sources.list.d/deb_debian_org_debian.list."
-  rm /etc/apt/sources.list.d/deb_debian_org_debian.list
+if [ ! -f /usr/share/keyrings/docker-archive-keyring.gpg ]; then
+  echo "Downloading Docker GPG key..."
+  wget https://registry.vnocsymphony.com/cpx/downloads/docker-archive-keyring.gpg -O /usr/share/keyrings/docker-archive-keyring.gpg || {
+    # Check and install dependencies
+    check_dependencies
+  }
+else
+  echo "Docker GPG key already exists @/usr/share/keyrings/docker-archive-keyring.gpg skipping download."
 fi
 
 # Perform updates and upgrades
@@ -139,10 +149,10 @@ unset DEBIAN_FRONTEND
 
 # Prompt for reboot if a full version upgrade was performed
 if [[ $DEBIAN_VERSION == 10 || $DEBIAN_VERSION == 11 ]]; then
-  echo "###############################################"
-echo "# Major version upgrade complete. Reboot now? #"
-echo "###############################################"
-read -p "(y/n): " REBOOT
+  echo "################################################################"
+  echo "# Major version upgrade complete, reboot required. Reboot now? #"
+  echo "################################################################"
+  read -p "(y/n): " REBOOT
   if [[ $REBOOT =~ ^[Yy]$ ]]; then
     echo "Rebooting..."
     reboot
@@ -154,10 +164,13 @@ fi
 apps=("gnupg2" "pass")
 for app in "${apps[@]}"; do
     if ! command -v "$app" >/dev/null 2>&1; then
-        sudo apt install "$app" -y || echo "Failed to install '$app'."
+        apt install "$app" -y || echo "Failed to install '$app'."
     fi
 done
 
-echo "#######################################################"
-echo "#   The OS and app upgrade process has now finished   #"
-echo "#######################################################"
+echo "################################################################"
+echo "#       The OS and app upgrade process has now finished        #"
+echo "################################################################"
+
+cat /etc/debian_version
+cat /etc/os-release
