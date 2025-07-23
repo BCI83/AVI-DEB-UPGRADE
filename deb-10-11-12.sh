@@ -64,7 +64,7 @@ deb [trusted=yes] http://archive.debian.org/debian/ buster-proposed-updates main
 deb [trusted=yes] http://archive.debian.org/debian-security buster/updates main contrib non-free
 EOF
       apt update --assume-yes
-      apt upgrade --assume-yes
+      apt upgrade --assume-yes -o Dpkg::Options::="--force-confold"
 
       cat <<EOF > /etc/apt/sources.list
 deb [trusted=yes] https://registry.vnocsymphony.com/repos/apt-mirror/mirror/ftp.us.debian.org/debian bullseye main contrib non-free
@@ -140,8 +140,9 @@ fi
 # Perform updates and upgrades
 echo "Running apt update and upgrades..."
 apt update --assume-yes
-apt upgrade --without-new-pkgs --assume-yes
-apt full-upgrade --assume-yes
+apt upgrade --without-new-pkgs -o Dpkg::Options::="--force-confold"
+apt full-upgrade --assume-yes -o Dpkg::Options::="--force-confold"
+
 apt --purge autoremove --assume-yes
 
 # Reset DEBIAN_FRONTEND
